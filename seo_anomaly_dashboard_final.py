@@ -58,8 +58,8 @@ if crawl_file and ga_file and gsc_file:
 
         if 'OpenAI: 1' in df.columns:
                 val = row.get('OpenAI: 1')
-        if pd.notna(val) and isinstance(val, (int, float)) and val < 0.5:
-        issues.append("Low OpenAI EEAT score")
+                    if pd.notna(val) and isinstance(val, (int, float)) and val < 0.5:
+                       issues.append("Low OpenAI EEAT score")
 
         if issues:
             anomalies.append({
