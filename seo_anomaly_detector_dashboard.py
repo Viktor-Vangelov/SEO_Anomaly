@@ -56,8 +56,8 @@ if crawl_file and ga_file and gsc_file:
         if pd.notna(row.get('GA4 Engagement rate')) and row['GA4 Engagement rate'] < 0.3:
             issues.append("Low engagement rate")
 
-        if pd.notna(row.get('OpenAI: 1')) and row['OpenAI: 1'] < 0.5:
-            issues.append("Low OpenAI EEAT score")
+        if 'OpenAI: 1' in row and pd.notna(row['OpenAI: 1']) and row['OpenAI: 1'] < 0.5:
+    issues.append("Low OpenAI EEAT score")
 
         if issues:
             anomalies.append({
