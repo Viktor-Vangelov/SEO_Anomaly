@@ -26,45 +26,45 @@ if crawl_file and ga_file and gsc_file:
     df = crawl_df.merge(ga_df, on='URL', how='left').merge(gsc_df, on='URL', how='left')
 
     st.subheader("🧠 Anomaly Report")
-    anomalies = []
+  anomalies = []
 
-    for _, row in df.iterrows():
-        url = row['URL']
-        issues = []
+for _, row in df.iterrows():
+    url = row['URL']
+    issues = []
 
-        if row.get('Status Code') not in [200, 301, 302]:
-            issues.append("Non-200/3xx status")
+    if row.get('Status Code') not in [200, 301, 302]:
+        issues.append("Non-200/3xx status")
 
-        if row.get('Indexability') not in ["Indexable", "Canonical"]:
-            issues.append("Not indexable")
+    if row.get('Indexability') not in ["Indexable", "Canonical"]:
+        issues.append("Not indexable")
 
-        if pd.notna(row.get('Crawl Depth')) and row['Crawl Depth'] > 4:
-            issues.append("High crawl depth")
+    if pd.notna(row.get('Crawl Depth')) and row['Crawl Depth'] > 4:
+        issues.append("High crawl depth")
 
-        if pd.notna(row.get('Word Count')) and row['Word Count'] < 300:
-            issues.append("Thin content")
+    if pd.notna(row.get('Word Count')) and row['Word Count'] < 300:
+        issues.append("Thin content")
 
-        if pd.notna(row.get('Performance Score')) and row['Performance Score'] < 50:
-            issues.append("Low performance score")
+    if pd.notna(row.get('Performance Score')) and row['Performance Score'] < 50:
+        issues.append("Low performance score")
 
-        if pd.notna(row.get('CTR')) and row['CTR'] < 0.5:
-            issues.append("Low CTR")
+    if pd.notna(row.get('CTR')) and row['CTR'] < 0.5:
+        issues.append("Low CTR")
 
-        if pd.notna(row.get('Position')) and row['Position'] > 20:
-            issues.append("Poor average position")
+    if pd.notna(row.get('Position')) and row['Position'] > 20:
+        issues.append("Poor average position")
 
-        if pd.notna(row.get('GA4 Engagement rate')) and row['GA4 Engagement rate'] < 0.3:
-            issues.append("Low engagement rate")
+    if pd.notna(row.get('GA4 Engagement rate')) and row['GA4 Engagement rate'] < 0.3:
+        issues.append("Low engagement rate")
 
-        if 'OpenAI: 1' in row and pd.notna(row['OpenAI: 1']) and row['OpenAI: 1'] < 0.5:
-    issues.append("Low OpenAI EEAT score")
+    if 'OpenAI: 1' in row and pd.notna(row['OpenAI: 1']) and row['OpenAI: 1'] < 0.5:
+        issues.append("Low OpenAI EEAT score")
 
-        if issues:
-            anomalies.append({
-                "URL": url,
-                "Issues": ", ".join(issues),
-                "Severity": len(issues)
-            })
+    if issues:
+        anomalies.append({
+            "URL": url,
+            "Issues": ", ".join(issues),
+            "Severity": len(issues)
+        })
 
     anomaly_df = pd.DataFrame(anomalies)
     st.write(anomaly_df)
