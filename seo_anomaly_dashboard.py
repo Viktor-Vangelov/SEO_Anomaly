@@ -75,5 +75,3 @@ def main():
     anomalies.to_csv("weekly_anomalies_report.csv", index=False)
     print("Anomaly report saved as weekly_anomalies_report.csv")
 
-if __name__ == "__main__":
-    main()
